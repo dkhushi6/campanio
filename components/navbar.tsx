@@ -42,7 +42,7 @@ const Navbar = () => {
           Chat with Me
         </Link>
         <Link
-          href="/chat/new"
+          href="/journal"
           className={buttonVariants({ variant: "outline" })}
         >
           Journal

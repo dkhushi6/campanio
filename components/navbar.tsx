@@ -16,9 +16,7 @@ import { Brain } from "lucide-react"; // mental health–related icon
 
 const Navbar = () => {
   const { data: session } = useSession();
-  if (!session) {
-    return;
-  }
+
   return (
     <div className="fixed left-0 right-0 top-0 z-20 border-b bg-background/95 backdrop-blur supports-backdrop-blur:bg-background/60 w-full flex py-3 px-6 justify-between items-center">
       {/* Brand */}

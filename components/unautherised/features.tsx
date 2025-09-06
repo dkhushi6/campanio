@@ -96,7 +96,7 @@ export function FeaturesSection() {
               <CardHeader className="text-center">
                 <Button
                   size="icon"
-                  variant="ghost"
+                  variant="outline"
                   className={`mx-auto mb-4 p-6 rounded-full bg-background shadow-lg ${feature.shadow}`}
                 >
                   <feature.icon className={`h-18 w-18  ${feature.color}`} />

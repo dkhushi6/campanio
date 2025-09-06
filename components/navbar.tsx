@@ -27,6 +27,27 @@ const Navbar = () => {
         <Brain className="h-6 w-6 text-primary" /> {/* Mental health icon */}
         CAMPANIO
       </Link>
+      <div className="flex gap-3">
+        <Link
+          href="/chat/new"
+          className={buttonVariants({ variant: "outline" })}
+        >
+          Track Mood
+        </Link>
+        <Link
+          href="/chat/new"
+          className={buttonVariants({ variant: "outline" })}
+        >
+          {" "}
+          Chat with Me
+        </Link>
+        <Link
+          href="/chat/new"
+          className={buttonVariants({ variant: "outline" })}
+        >
+          Journal
+        </Link>
+      </div>
 
       {/* Right Side */}
       <div className="flex items-center gap-4">

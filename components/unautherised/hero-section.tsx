@@ -12,7 +12,7 @@ import { useRouter } from "next/navigation";
 const HeroSection = () => {
   const router = useRouter();
   return (
-    <section className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-background via-background/95 to-background">
+    <section className="min-h-screen max-w-8xl flex items-center justify-center px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-background via-background/95 to-background">
       <div className="container mx-auto">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left Column - Content */}

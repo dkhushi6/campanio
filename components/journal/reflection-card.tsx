@@ -1,8 +1,11 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { LucideNotebook, Pencil, Sparkles } from "lucide-react";
 import { Card } from "../ui/card";
 import { Calendar } from "@/components/ui/calendar";
+import axios from "axios";
+import { day as DayType } from "@prisma/client";
+import { moodMessages, moods } from "@/lib/mood";
 
 type ReflectionCardProps = {
   content?: string;
@@ -26,7 +29,28 @@ const ReflectionCard = ({
     year: "numeric",
   });
   const [date, setDate] = React.useState<Date | undefined>(new Date());
+  const [day, setDay] = useState<DayType | null>(null);
 
+  useEffect(() => {
+    const fetchDay = async () => {
+      if (!date) return;
+
+      const formattedDate = date.toISOString().split("T")[0].replace(/-/g, ".");
+
+      try {
+        const res = await axios.post("/api/day", { date: formattedDate });
+        console.log(res.data.day.journal);
+        setDay(res.data.day);
+      } catch (err) {
+        console.error("Error fetching day:", err);
+      }
+    };
+
+    fetchDay();
+  }, [date]);
+  const moodObj = day?.mood
+    ? moods.find((m) => m.name.toLowerCase() === day?.mood?.toLowerCase())
+    : null;
   return (
     <div className="w-full mt-17 flex justify-center">
       <div
@@ -42,17 +66,18 @@ const ReflectionCard = ({
           </div>
 
           {/* Journal Box */}
-          <Card className="rounded-xl bg-[#f59f0b3a] flex flex-col gap-4 relative flex-1 p-6 backdrop-blur-sm">
-            <button className="absolute top-4 right-4 p-2 rounded-full">
-              <Pencil className="w-5 h-5 text-muted-foreground" />
-            </button>
-            <h2 className="text-xl font-semibold text-primary flex items-center gap-2">
-              ✍️ Journal
+
+          {/* Reflection */}
+          <Card className="flex-1 p-6 backdrop-blur-sm bg-[#0bedf54c]">
+            <h2 className="text-xl font-semibold text-primary mb-4 flex items-center gap-2">
+              <Sparkles className="w-5 h-5 text-primary" /> Reflection
             </h2>
-            <div className="overflow-y-auto pr-2 flex-1">
-              <p className="text-base text-muted-foreground leading-relaxed whitespace-pre-line">
-                {content ||
-                  "No journal entry yet... Start writing your thoughts!"}
+            <div className="overflow-y-auto pr-2 h-full">
+              <p className="text-base text-muted-foreground leading-relaxed">
+                {/* Placeholder for AI reflection */}
+                {day?.reflection
+                  ? day.reflection
+                  : "Here will be the thoughtful reflection generated from your journal. It might include insights, encouragement, or gentle advice to help you process your day more deeply."}
               </p>
             </div>
           </Card>
@@ -74,31 +99,33 @@ const ReflectionCard = ({
 
             {/* Mood Tracker */}
             <Card
-              className="flex-1 rounded-xl p-6 shadow-sm flex flex-col items-center justify-center gap-3 text-center"
+              className="flex-1 rounded-xl p-6 flex flex-col items-center justify-center gap-3 text-center 6"
               style={{
-                backgroundColor: bgColor || "",
-                color: color || "",
+                backgroundColor: moodObj?.bgColor || "#f3f4f6",
+                color: moodObj?.color || "#6b7280",
+                border: `2px solid ${moodObj?.color || "#6b7280"}`, // border same as mood color
+                boxShadow: `0 4px 12px ${moodObj?.color || "#6b7280"}40`, // shadow with opacity
               }}
             >
-              <span className="text-4xl">{emoji || "🙂"}</span>
+              <span className="text-4xl">{moodObj?.emoji || "🙂"}</span>
               <span className="text-lg font-medium">
-                {name ? `You felt: ${name}` : "No mood selected"}
+                {moodObj
+                  ? moodMessages[moodObj.id]
+                  : "No mood selected yet. Choose how you feel today!"}
               </span>
             </Card>
           </div>
-
-          {/* Reflection */}
-          <Card className="flex-1 p-6 backdrop-blur-sm bg-[#0bedf54c]">
-            <h2 className="text-xl font-semibold text-primary mb-4 flex items-center gap-2">
-              <Sparkles className="w-5 h-5 text-primary" /> Reflection
+          <Card className="rounded-xl bg-[#f59f0b3a] flex flex-col gap-4 relative flex-1 p-6 backdrop-blur-sm">
+            <button className="absolute top-4 right-4 p-2 rounded-full">
+              <Pencil className="w-5 h-5 text-muted-foreground" />
+            </button>
+            <h2 className="text-xl font-semibold text-primary flex items-center gap-2">
+              ✍️ Journal
             </h2>
-            <div className="overflow-y-auto pr-2 h-full">
-              <p className="text-base text-muted-foreground leading-relaxed">
-                {/* Placeholder for AI reflection */}
-                Here will be the thoughtful reflection generated from your
-                journal. It might include insights, encouragement, or gentle
-                advice to help you process your day more deeply.
-              </p>
+            <div className="overflow-y-auto pr-2 flex-1">
+              <div className="text-base text-muted-foreground leading-relaxed whitespace-pre-line">
+                <p>{day?.journal ? day.journal : "No journal entry yet..."}</p>
+              </div>
             </div>
           </Card>
         </div>

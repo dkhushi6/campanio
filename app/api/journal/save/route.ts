@@ -56,12 +56,18 @@ User’s Journal Entry:
 ${journal}
 """
 
-Now, write a heartfelt reflection for the user.
+Now, write a heartfelt reflection for the user in under 250 words.
   `,
   });
   console.log("REFLECTION GENERATED", text);
-
+  oldDay = await prisma.day.update({
+    where: {
+      userId_date: { userId, date: todayStr },
+    },
+    data: { reflection: text },
+  });
   return NextResponse.json({
     message: "Journal saved in DataBAse successfully",
+    status: "ok",
   });
 }

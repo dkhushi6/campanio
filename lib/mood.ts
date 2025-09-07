@@ -58,3 +58,14 @@ export const moods: Mood[] = [
     bgColor: "#fce7f3",
   },
 ];
+
+export const moodMessages: Record<string, string> = {
+  happy: "What a joyful day! Keep spreading those smiles 😊",
+  calm: "Feeling peaceful and relaxed, that's wonderful 😌",
+  sad: "It's okay to feel down sometimes. Take gentle care 😞",
+  angry: "Letting go of frustration is a healthy step 😡",
+  neutral: "A balanced day, nice to just be 😐",
+  tired: "Rest is important. Take time to recharge 🥱",
+  anxious: "Breathe deeply, you've got this 😰",
+  excited: "Excitement is energy! Channel it positively 🤩",
+};

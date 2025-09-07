@@ -71,7 +71,7 @@ const JournalHero = ({ setIsWriting }: JournalHeroProps) => {
               Create a new entry and reflect on your thoughts
             </p>
             <Button
-              onClick={() => handleMoodSave()}
+              onClick={async () => await handleMoodSave()}
               className="w-full bg-[#6059E7] hover:bg-[#4d48c6] rounded-lg py-3 text-lg"
             >
               {loadingMood && <Loader2 className="w-5 h-5 animate-spin" />}

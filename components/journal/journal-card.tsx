@@ -33,6 +33,7 @@ const JournalCard = ({ onBack }: JournalCardProps) => {
       alert("Network error or server issue");
     } finally {
       setLoadingJournal(false);
+      router.push("/journal/history");
     }
   };
 
@@ -70,9 +71,8 @@ const JournalCard = ({ onBack }: JournalCardProps) => {
       {/* Action Buttons */}
       <div className="flex flex-col sm:flex-row gap-3 mt-6 sm:justify-end">
         <Button
-          onClick={() => {
-            handleJournalSave();
-            router.push("/journal/history");
+          onClick={async () => {
+            await handleJournalSave(); // wait for API to finish
           }}
           variant="outline"
           className="text-[15px] px-6 py-4 flex items-center justify-center gap-3"

@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
   const body = await req.json();
   const { date } = body;
   if (!date) {
-    return NextResponse.json({ message: "date not found " });
+    return NextResponse.json({ message: "date not found " }, { status: 400 });
   }
   const thatDay = await prisma.day.findFirst({
     where: { userId, date },

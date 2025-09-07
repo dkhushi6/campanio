@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { generateText } from "ai";
 import { NextRequest, NextResponse } from "next/server";
 import { google } from "@ai-sdk/google";
+import { useEffect, useState } from "react";
 
 export async function POST(req: NextRequest) {
   const session = await auth();

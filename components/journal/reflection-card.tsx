@@ -22,6 +22,12 @@ const ReflectionCard = ({
   color,
   bgColor,
 }: ReflectionCardProps) => {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const today = new Date().toLocaleDateString("en-US", {
     weekday: "long",
     month: "long",
@@ -39,8 +45,15 @@ const ReflectionCard = ({
 
       try {
         const res = await axios.post("/api/day", { date: formattedDate });
-        console.log(res.data.day.journal);
-        setDay(res.data.day);
+
+        if (res.data.day) {
+          setDay(res.data.day);
+          console.log(res.data.day.journal);
+        } else {
+          setDay(null);
+
+          console.log("This day entry was not done ");
+        }
       } catch (err) {
         console.error("Error fetching day:", err);
       }
@@ -51,6 +64,29 @@ const ReflectionCard = ({
   const moodObj = day?.mood
     ? moods.find((m) => m.name.toLowerCase() === day?.mood?.toLowerCase())
     : null;
+  if (!mounted) {
+    // Skeleton loader
+    return (
+      <div className="w-full mt-17 flex justify-center">
+        <div
+          className="max-w-7xl w-full flex gap-6 p-8 animate-pulse"
+          style={{ height: "calc(100vh - 80px)" }}
+        >
+          <div className="flex flex-col gap-6 flex-1">
+            <div className="h-12 bg-muted rounded-lg"></div>
+            <div className="flex-1 bg-muted rounded-lg"></div>
+          </div>
+          <div className="flex flex-col gap-6 flex-1">
+            <div className="flex gap-4">
+              <div className="flex-1 h-64 bg-muted rounded-lg"></div>
+              <div className="flex-1 h-64 bg-muted rounded-lg"></div>
+            </div>
+            <div className="flex-1 bg-muted rounded-lg"></div>
+          </div>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="w-full mt-17 flex justify-center">
       <div
@@ -62,7 +98,9 @@ const ReflectionCard = ({
           {/* Date Box */}
           <div className="p-3 shadow-sm flex items-center gap-3">
             <LucideNotebook className="w-6 h-6 text-primary" />
-            <p className="text-xl font-semibold text-primary">{today}</p>
+            <p className="text-xl font-semibold text-primary">
+              {today || "Loading date..."}
+            </p>
           </div>
 
           {/* Journal Box */}

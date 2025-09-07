@@ -58,7 +58,7 @@ model session {
 model day {
   //required
   id         String   @id @default(cuid())
-  date       DateTime
+  date       String
   userId     String
   updatedAt  DateTime @updatedAt
   //optional fields

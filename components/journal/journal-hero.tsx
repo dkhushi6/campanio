@@ -3,7 +3,8 @@
 import MoodSelector, { Mood } from "@/components/journal/mood-selector";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { BookOpen, PenTool } from "lucide-react";
+import axios from "axios";
+import { BookOpen, Loader2, PenTool } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import React, { useState } from "react";
@@ -15,7 +16,23 @@ type JournalHeroProps = {
 const JournalHero = ({ setIsWriting }: JournalHeroProps) => {
   const [selectedMood, setSelectedMood] = useState<Mood | undefined>(undefined);
   const { data: session } = useSession();
+  const [loadingMood, setLoadingMood] = useState(false);
 
+  const handleMoodSave = async () => {
+    setLoadingMood(true);
+
+    try {
+      const res = await axios.post("/api/mood/save", {
+        mood: selectedMood?.name,
+      });
+      console.log("Mood api test", res.data);
+    } catch (err) {
+      console.error("Error:", err);
+      alert("Network error or server issue");
+    } finally {
+      setLoadingMood(false);
+    }
+  };
   const getGreeting = () => {
     const hour = new Date().getHours();
     if (hour < 12) return "Good morning";
@@ -53,8 +70,12 @@ const JournalHero = ({ setIsWriting }: JournalHeroProps) => {
             <p className="text-gray-400 mb-6 text-sm sm:text-base">
               Create a new entry and reflect on your thoughts
             </p>
-            <Button className="w-full bg-[#6059E7] hover:bg-[#4d48c6] rounded-lg py-3 text-lg">
-              Begin Writing
+            <Button
+              onClick={() => handleMoodSave()}
+              className="w-full bg-[#6059E7] hover:bg-[#4d48c6] rounded-lg py-3 text-lg"
+            >
+              {loadingMood && <Loader2 className="w-5 h-5 animate-spin" />}
+              {loadingMood ? "Saving..." : "Begin Writing"}
             </Button>
           </CardContent>
         </Card>

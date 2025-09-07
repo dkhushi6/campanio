@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
 import { Button } from "../ui/button";
-import { MessageCircle, Sparkles } from "lucide-react";
+import { Loader2, MessageCircle, Sparkles } from "lucide-react";
 import { ReflectionCard } from "./reflection-card";
 import { useRouter } from "next/navigation";
 import axios from "axios";
@@ -20,10 +20,22 @@ const JournalCard = ({ onBack }: JournalCardProps) => {
     month: "long",
     day: "numeric",
   });
+  const [loadingJournal, setLoadingJournal] = useState(false);
+
   const handleJournalSave = async () => {
-    const res = await axios.post("/api/journal/save", { journal: content });
-    console.log(res.data);
+    setLoadingJournal(true);
+
+    try {
+      const res = await axios.post("/api/journal/save", { journal: content });
+      console.log(res.data);
+    } catch (err) {
+      console.error("Error:", err);
+      alert("Network error or server issue");
+    } finally {
+      setLoadingJournal(false);
+    }
   };
+
   // Auto-resize textarea
   useEffect(() => {
     if (textareaRef.current) {
@@ -66,7 +78,8 @@ const JournalCard = ({ onBack }: JournalCardProps) => {
           className="text-[15px] px-6 py-4 flex items-center justify-center gap-3"
         >
           <MessageCircle className="w-8 h-8" />
-          Save & Reflect my Campanio
+          {loadingJournal && <Loader2 className="w-5 h-5 animate-spin" />}
+          {loadingJournal ? "Saving..." : " Save & Reflect my Campanio"}
         </Button>
       </div>
     </div>

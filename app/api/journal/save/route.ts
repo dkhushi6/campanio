@@ -12,31 +12,28 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ message: "Login first" }, { status: 401 });
   }
   const userId = session.user.id;
-  const today = new Date();
-  // const date = today.toISOString().split("T")[0];
-  //  "2025-09-06"
-  let oldDay = await prisma.day.findUnique({
+  const todayStr = new Date().toISOString().split("T")[0].replace(/-/g, ".");
+  let oldDay = await prisma.day.findFirst({
     where: {
-      userId_date: { userId, date: today }, // composite unique
+      userId,
+      date: todayStr,
     },
   });
   if (!oldDay) {
-    const day = await prisma.day.create({
-      data: {
-        date: today,
-        userId,
-      },
-    });
-    console.log("DAY CREATED");
+    return NextResponse.json({ message: "the day doesnt exist " });
   }
   const { journal } = body;
   if (!journal) {
     return NextResponse.json({ message: "no journal found" });
   }
+  const oldJournal = oldDay.journal;
+  if (oldJournal) {
+    return NextResponse.json({ message: " journal Already saved for the day" });
+  }
   // push journal in day
   oldDay = await prisma.day.update({
     where: {
-      userId_date: { userId, date: today },
+      userId_date: { userId, date: todayStr },
     },
     data: { journal },
   });
@@ -65,6 +62,6 @@ Now, write a heartfelt reflection for the user.
   console.log("REFLECTION GENERATED", text);
 
   return NextResponse.json({
-    message: "Date picked successfully",
+    message: "Journal saved in DataBAse successfully",
   });
 }

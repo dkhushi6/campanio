@@ -22,11 +22,15 @@ export default function MoodSelector({
   onSelect: (mood: Mood) => void;
 }) {
   return (
-    <div className="flex flex-col items-center justify-start  p-4  space-y-8">
+    <div className="flex flex-col items-center justify-start bg-transparent  p-3  ">
       {/* Title */}
-      <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">
+      <h2 className=" font-semibold text-muted-foreground text-[23px]  tracking-tight">
         How are you feeling today?
       </h2>
+      <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed pb-3">
+        Take a moment to check in with yourself. Your thoughts and feelings
+        matter.
+      </p>
 
       {/* Mood Grid */}
       <div className="grid grid-cols-3 sm:grid-cols-4 gap-5 w-full max-w-3xl">

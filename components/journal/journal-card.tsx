@@ -3,12 +3,18 @@ import React, { useState, useRef, useEffect } from "react";
 import { Button } from "../ui/button";
 import { MessageCircle, Sparkles } from "lucide-react";
 import { ReflectionCard } from "./reflection-card";
+import { useRouter } from "next/navigation";
 
-const JournalCard = () => {
+//save journal api
+
+type JournalCardProps = {
+  onBack?: () => void; // 👈 optional back navigation
+};
+const JournalCard = ({ onBack }: JournalCardProps) => {
   const [showReflection, setShowReflection] = useState(false);
   const [content, setContent] = useState("");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-
+  const router = useRouter();
   const today = new Date().toLocaleDateString("en-US", {
     weekday: "long",
     year: "numeric",
@@ -25,18 +31,10 @@ const JournalCard = () => {
     }
   }, [content]);
 
-  const handleReflectionCard = () => {
-    if (content.trim()) {
-      setShowReflection(true);
-    } else {
-      console.log("Write the journal first");
-    }
-  };
-
   return showReflection ? (
     <ReflectionCard content={content} />
   ) : (
-    <div className="flex flex-col px-6 py-10 sm:px-12 lg:px-32">
+    <div className="flex flex-col px-6 mt-17 py-10 sm:px-12 lg:px-32">
       {/* Header */}
       <div className="mb-8">
         <h1 className="flex items-center gap-2 text-3xl font-bold text-primary">
@@ -60,7 +58,7 @@ const JournalCard = () => {
       {/* Action Buttons */}
       <div className="flex flex-col sm:flex-row gap-3 mt-6 sm:justify-end">
         <Button
-          onClick={handleReflectionCard} // ✅ fixed
+          onClick={() => router.push("/journal/history")}
           variant="outline"
           className="text-[15px] px-6 py-4 flex items-center justify-center gap-3"
         >

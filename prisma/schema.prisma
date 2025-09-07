@@ -23,6 +23,7 @@ model user{
  emailVerified  DateTime? 
  account account[]
  session session[]
+ day day[]
 
 }
 model account {
@@ -50,4 +51,37 @@ model session {
   userId       String
   expires      DateTime
   user user @relation(fields: [userId], references: [id])
+}
+
+
+//day schema
+model day {
+  //required
+  id         String   @id @default(cuid())
+  date       DateTime @default(now()) 
+  userId     String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  //optional fields
+  journal    String?  
+  mood       String? 
+  reflection String? 
+  chat       chat[]
+  user       user   @relation(fields: [userId], references: [id])
+   @@unique([userId, date]) 
+}
+
+
+model chat {
+    id    String   @id @default(uuid())
+    userId String
+    name String
+    message Message
+    dayId     String
+    day   day  @relation(fields: [dayId], references: [id])
+    }
+enum Message{
+  id 
+  parts 
+  role
 }

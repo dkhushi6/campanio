@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { LucideNotebook, Pencil, Sparkles } from "lucide-react";
 import { Card } from "../ui/card";
@@ -27,7 +28,7 @@ const ReflectionCard = ({
   const [date, setDate] = React.useState<Date | undefined>(new Date());
 
   return (
-    <div className="w-full flex justify-center">
+    <div className="w-full mt-17 flex justify-center">
       <div
         className="max-w-7xl w-full flex gap-6 p-8"
         style={{ height: "calc(100vh - 80px)" }}

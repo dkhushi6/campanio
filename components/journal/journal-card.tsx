@@ -5,6 +5,7 @@ import { Loader2, MessageCircle, Sparkles } from "lucide-react";
 import { ReflectionCard } from "./reflection-card";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import { AudioJournal } from "./audio-journal";
 //save journal api
 
 type JournalCardProps = {
@@ -70,6 +71,7 @@ const JournalCard = ({ onBack }: JournalCardProps) => {
 
       {/* Action Buttons */}
       <div className="flex flex-col sm:flex-row gap-3 mt-6 sm:justify-end">
+        <AudioJournal setContent={setContent} />
         <Button
           onClick={async () => {
             await handleJournalSave(); // wait for API to finish

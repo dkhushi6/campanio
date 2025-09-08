@@ -6,18 +6,23 @@ import { useState, useRef, useEffect } from "react";
 import { MessageCircle, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { suggestions } from "@/components/chat/suggestion";
-import { DefaultChatTransport } from "ai";
+import { DefaultChatTransport, UIMessage } from "ai";
 import axios from "axios";
+import Spinner from "../spinner";
 type ChatInterfaceProps = {
   chatId: string;
   formattedDate: string;
+  oldChats: UIMessage[];
 };
 export default function ChatInterface({
   chatId,
   formattedDate,
+  oldChats,
 }: ChatInterfaceProps) {
   const [input, setInput] = useState("");
-  const { messages, sendMessage } = useChat({
+  const [oldChatLoading, setOldLoading] = useState(true);
+
+  const { messages, sendMessage, setMessages } = useChat({
     transport: new DefaultChatTransport({
       api: "/api/chat",
       body: { chatId, date: formattedDate },
@@ -40,6 +45,30 @@ export default function ChatInterface({
     },
   });
   const containerRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const loadOldChats = async () => {
+      setOldLoading(true); // Start loading
+      try {
+        if (!oldChats || oldChats.length === 0) {
+          console.log("THIS IS A NEW CHAT");
+          return;
+        }
+
+        console.log("oldchats from chatInterface:", oldChats);
+
+        // Add a small delay to simulate loading for UX (optional)
+        await new Promise((resolve) => setTimeout(resolve, 300));
+
+        setMessages(oldChats);
+      } catch (error) {
+        console.error("Error loading old chats:", error);
+      } finally {
+        setOldLoading(false); // Always stop loading
+      }
+    };
+
+    loadOldChats();
+  }, [oldChats, setMessages]);
 
   // Scroll to bottom only if already near bottom
   useEffect(() => {
@@ -54,7 +83,9 @@ export default function ChatInterface({
       container.scrollTop = container.scrollHeight;
     }
   }, [messages]);
-
+  if (oldChatLoading) {
+    return <Spinner />;
+  }
   return (
     <div className="flex flex-col w-full max-w-5xl mx-auto h-screen px-4 py-6">
       {/* Scrollable Chat Area */}

@@ -26,7 +26,6 @@ const Dashboard = () => {
       try {
         const res = await axios.post("/api/day", { date: formattedDate });
         console.log("day fetch", res.data);
-
         setMood(res.data?.day?.mood || "");
         setJournal(res.data?.day?.journal || "");
       } catch (err) {
@@ -38,7 +37,7 @@ const Dashboard = () => {
 
   return (
     <div className="space-y-6 flex-col">
-      <DashboardCard date={formattedDate} mood={mood} streak={0} />
+      <DashboardCard date={formattedDate} mood={mood} streak={2} />
 
       {/* Dashboard middle section */}
       <div className="max-w-8xl mx-auto flex  justify-center items-center">

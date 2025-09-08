@@ -7,6 +7,7 @@ import axios from "axios";
 import { day as DayType } from "@prisma/client";
 import { moodMessages, moods } from "@/lib/mood";
 import { Button } from "../ui/button";
+import Spinner from "../spinner";
 
 type ReflectionCardProps = {
   content?: string;
@@ -99,7 +100,11 @@ const ReflectionCard = ({
     year: "numeric",
   });
   if (loadingDay) {
-    return <p className="mt-17">Loading...</p>;
+    return (
+      <p className="mt-17">
+        <Spinner />
+      </p>
+    );
   }
   if (!mounted) {
     return (

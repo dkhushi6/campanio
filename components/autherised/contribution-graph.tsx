@@ -69,7 +69,7 @@ const DayStreakGraph = () => {
               case 0:
                 return "#e5e7eb"; // empty
               case 1:
-                return "#FEF3C7"; // amber-100
+                return "#FCD34D"; // amber-100
               case 2:
                 return "#FCD34D"; // amber-300
               case 3:
@@ -113,7 +113,7 @@ const DayStreakGraph = () => {
           {({ level }) => {
             const colors = [
               "#d1d5db", // gray-300 (empty)
-              "#fde68a", // amber-200
+              "#FCD34D", // amber-200
               "#fbbf24", // amber-400
               "#f59e0b", // amber-500
               "#b45309", // amber-700

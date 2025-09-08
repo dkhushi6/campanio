@@ -3,6 +3,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { formatDistanceToNow } from "date-fns";
 import { MessageSquare } from "lucide-react";
+import { redirect } from "next/navigation";
 
 type ChatHistoryProps = {
   formattedDate: string;
@@ -23,7 +24,6 @@ type Chat = {
 
 const ChatHistory = ({ formattedDate }: ChatHistoryProps) => {
   const [dayChats, setDayChats] = useState<Chat[]>([]);
-
   useEffect(() => {
     const handleDayChatsFetch = async () => {
       try {
@@ -59,6 +59,7 @@ const ChatHistory = ({ formattedDate }: ChatHistoryProps) => {
             return (
               <div
                 key={chat.id}
+                onClick={() => redirect(`/chat/${chat.id}`)}
                 className="flex items-start gap-3 p-4 rounded-xl shadow-sm bg-muted hover:bg-muted/80 cursor-pointer transition"
               >
                 {/* Left icon/avatar */}

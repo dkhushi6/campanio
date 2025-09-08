@@ -8,6 +8,7 @@ import { BookOpen, Loader2, PenTool, Pencil } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import Spinner from "../spinner";
 
 type JournalHeroProps = {
   setIsWriting: (v: boolean) => void;
@@ -82,7 +83,11 @@ const JournalHero = ({ setIsWriting }: JournalHeroProps) => {
     return "Good evening";
   };
   if (loadingDay) {
-    return <p className="mt-17">Loading...</p>;
+    return (
+      <p className="mt-17">
+        <Spinner />
+      </p>
+    );
   }
   return (
     <div className="max-w-4xl mx-auto px-4 py-12 mt-17 space-y-10 min-h-[calc(100vh-61px)]">

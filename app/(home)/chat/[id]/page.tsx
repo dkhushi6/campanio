@@ -1,18 +1,22 @@
 "use client";
 import ChatInterface from "@/components/chat/chat-interface";
-import { redirect, useParams } from "next/navigation";
+import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { ObjectId } from "bson";
 import { useSession } from "next-auth/react";
+import { UIMessage } from "ai";
+import axios from "axios";
+import Spinner from "@/components/spinner";
 
 const page = () => {
   const { data: session } = useSession();
   const params = useParams();
   const id = params.id as string;
   const [chatId, setChatId] = useState("");
+  const [oldChats, setOldChats] = useState<UIMessage[]>([]);
+
   if (!session?.user?.id) {
     console.log("login to chat");
-    redirect("/login");
   }
 
   const formattedDate = new Date()
@@ -36,10 +40,31 @@ const page = () => {
       setChatId(id);
     }
   }, []);
+
+  useEffect(() => {
+    if (id && id !== "new") {
+      const handleReload = async () => {
+        const res = await axios.post("/api/chat/particular-chat", {
+          chatId: id,
+          date: formattedDate,
+        });
+        console.log("current chat :", res.data);
+        setOldChats(res.data.chat.messages);
+      };
+      handleReload();
+    }
+  }, []);
+  if (oldChats === null) {
+    return <Spinner />;
+  }
   if (chatId) {
     return (
       <div>
-        <ChatInterface chatId={chatId} formattedDate={formattedDate} />
+        <ChatInterface
+          chatId={chatId}
+          formattedDate={formattedDate}
+          oldChats={oldChats}
+        />
       </div>
     );
   }

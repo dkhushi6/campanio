@@ -124,8 +124,8 @@ const DayStreakGraph = () => {
                 <rect
                   x={0}
                   y={0}
-                  width={18}
-                  height={18}
+                  width={20}
+                  height={20}
                   rx={2}
                   ry={2}
                   fill={colors[level]}

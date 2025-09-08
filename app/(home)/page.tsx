@@ -18,8 +18,8 @@ const page = () => {
     );
   }
   return (
-    <div className="mt-17">
-      HomePage <Dashboard />
+    <div className="mt-15">
+      <Dashboard />
     </div>
   );
 };

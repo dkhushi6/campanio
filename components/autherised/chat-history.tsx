@@ -30,9 +30,10 @@ const ChatHistory = ({ formattedDate }: ChatHistoryProps) => {
         const res = await axios.post("/api/chat/fetch-chats", {
           date: formattedDate,
         });
-        setDayChats(res.data.dayChats.chat || []);
+        setDayChats(res.data?.dayChats?.chat ?? []);
       } catch (error) {
         console.error("Error fetching chats", error);
+        setDayChats([]);
       }
     };
     handleDayChatsFetch();
@@ -40,11 +41,11 @@ const ChatHistory = ({ formattedDate }: ChatHistoryProps) => {
 
   return (
     <div className="p-4">
-      <h2 className="text-lg font-semibold mb-4 text-foreground">
+      <h2 className="text-lg font-semibold mb-4 text-foreground flex text-ce">
         Recent Conversations
       </h2>
 
-      <div className="space-y-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {dayChats.length > 0 ? (
           dayChats.map((chat) => {
             const firstMessage = chat.messages[0];
@@ -91,13 +92,6 @@ const ChatHistory = ({ formattedDate }: ChatHistoryProps) => {
             No chats for this day.
           </p>
         )}
-      </div>
-
-      {/* View All Button */}
-      <div className="mt-6 text-center">
-        <button className="text-sm font-medium text-primary hover:underline">
-          View All Conversations
-        </button>
       </div>
     </div>
   );

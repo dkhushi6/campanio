@@ -29,7 +29,7 @@ const Navbar = () => {
       </Link>
       <div className="flex gap-3">
         <Link
-          href="/chat/new"
+          href="/mood/new"
           className={buttonVariants({ variant: "outline" })}
         >
           Track Mood

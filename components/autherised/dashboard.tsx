@@ -64,7 +64,7 @@ const Dashboard = () => {
                   📓 Your Journal
                 </h2>
                 {journal ? (
-                  <p className="text-sm text-slate-700 dark:text-gray-300 leading-relaxed">
+                  <p className="text-sm text-slate-700 dark:text-gray-300 leading-relaxed ">
                     {journal}
                   </p>
                 ) : (
@@ -90,7 +90,7 @@ const Dashboard = () => {
                   text-white
                 "
               >
-                <div className="absolute inset-0 bg-[url('/stars.svg')] opacity-20 animate-pulse"></div>
+                <div className="absolute inset-0 opacity-20 animate-pulse"></div>
                 <h2 className="text-xl font-bold mb-2 relative z-10">
                   ✨ Reflection ✨
                 </h2>

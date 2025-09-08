@@ -101,9 +101,9 @@ const ReflectionCard = ({
   });
   if (loadingDay) {
     return (
-      <p className="mt-17">
+      <div className="mt-17">
         <Spinner />
-      </p>
+      </div>
     );
   }
   if (!mounted) {

@@ -29,6 +29,7 @@ const ReflectionCard = ({
   const [isEditing, setIsEditing] = useState(false);
   const [journalText, setJournalText] = useState("");
   const [isSaving, setIsSaving] = useState(false);
+  const [loadingDay, setLoadingDay] = useState(true);
 
   const formattedDate = date?.toISOString().split("T")[0].replace(/-/g, ".");
 
@@ -54,6 +55,8 @@ const ReflectionCard = ({
         console.error("Error fetching day:", err);
         setDay(null);
         setJournalText("");
+      } finally {
+        setLoadingDay(false);
       }
     };
 
@@ -95,7 +98,9 @@ const ReflectionCard = ({
     day: "numeric",
     year: "numeric",
   });
-
+  if (loadingDay) {
+    return <p className="mt-17">Loading...</p>;
+  }
   if (!mounted) {
     return (
       <div className="w-full mt-17 flex justify-center">
@@ -169,7 +174,14 @@ const ReflectionCard = ({
                 boxShadow: `0 4px 12px ${moodObj?.color || "#6b7280"}40`,
               }}
             >
-              <span className="text-4xl">{moodObj?.emoji || "🙂"}</span>
+              <span
+                className="text-7xl animate-pulse rounded-full"
+                style={{
+                  boxShadow: `0 0 25px ${moodObj?.color || "#6b7280"}`,
+                }}
+              >
+                {moodObj?.emoji || "🙂"}
+              </span>{" "}
               <span className="text-lg font-medium">
                 {moodObj
                   ? moodMessages[moodObj.id]

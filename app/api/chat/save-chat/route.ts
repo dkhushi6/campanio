@@ -12,8 +12,14 @@ export async function POST(req: NextRequest) {
   const body = await req.json();
   const { messages, chatId, date } = body;
   console.log("messages", messages);
-  if (!messages || !chatId || !date) {
-    return NextResponse.json({ message: "Message or userId not found" });
+  if (!messages) {
+    return NextResponse.json({ message: "Message  not found" });
+  }
+  if (!chatId) {
+    return NextResponse.json({ message: "chatId not found" });
+  }
+  if (!date) {
+    return NextResponse.json({ message: "date not found" });
   }
   //check if the day exists
   let oldDay = await prisma.day.findUnique({
@@ -55,7 +61,7 @@ export async function POST(req: NextRequest) {
     },
   });
   if (!oldChat) {
-    await prisma.chat.create({
+    oldChat = await prisma.chat.create({
       data: {
         id: chatId,
         userId,
@@ -64,10 +70,8 @@ export async function POST(req: NextRequest) {
       },
     });
   }
-  let msgUser = null;
-  let msgAssistent = null;
   if (oldChat) {
-    msgUser = await prisma.message.create({
+    await prisma.message.create({
       data: {
         id: userMsg.id,
         chatId: oldChat.id,
@@ -76,7 +80,7 @@ export async function POST(req: NextRequest) {
         role: userMsg.role,
       },
     });
-    msgAssistent = await prisma.message.create({
+    await prisma.message.create({
       data: {
         id: assistantMsg.id,
         chatId: oldChat.id,
@@ -88,7 +92,5 @@ export async function POST(req: NextRequest) {
   }
   return NextResponse.json({
     message: "Messages  created successfully",
-    msgUser,
-    msgAssistent,
   });
 }

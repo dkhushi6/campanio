@@ -4,14 +4,15 @@ import joblib
 import numpy as np
 from fastapi.middleware.cors import CORSMiddleware
 import logging
-
+import os
 # Set up logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Absolute paths to your models
-MODEL_PATH = r"D:\companio\campanio\machine-learning\training\stress_model.pkl"
-ENCODERS_PATH = r"D:\companio\campanio\machine-learning\training\encoders.pkl"
+# Relative paths to your models
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+MODEL_PATH = os.path.join(BASE_DIR, "..", "training", "stress_model.pkl")
+ENCODERS_PATH = os.path.join(BASE_DIR, "..", "training", "encoders.pkl")
 
 try:
     # Load trained model + encoders
@@ -227,4 +228,5 @@ def predict(data: InputData):
 
 if __name__ == "__main__":
     import uvicorn
+    import os
     uvicorn.run(app, host="127.0.0.1", port=8000)

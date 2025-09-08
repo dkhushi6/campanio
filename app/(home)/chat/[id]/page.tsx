@@ -14,6 +14,12 @@ const page = () => {
     console.log("login to chat");
     redirect("/login");
   }
+
+  const formattedDate = new Date()
+    .toISOString()
+    .split("T")[0]
+    .replace(/-/g, ".");
+
   useEffect(() => {
     if (!id || id === "new") {
       const idg = new ObjectId().toHexString();
@@ -33,7 +39,7 @@ const page = () => {
   if (chatId) {
     return (
       <div>
-        <ChatInterface />
+        <ChatInterface chatId={chatId} formattedDate={formattedDate} />
       </div>
     );
   }

@@ -6,10 +6,39 @@ import { useState, useRef, useEffect } from "react";
 import { MessageCircle, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { suggestions } from "@/components/chat/suggestion";
-
-export default function ChatInterface() {
+import { DefaultChatTransport } from "ai";
+import axios from "axios";
+type ChatInterfaceProps = {
+  chatId: string;
+  formattedDate: string;
+};
+export default function ChatInterface({
+  chatId,
+  formattedDate,
+}: ChatInterfaceProps) {
   const [input, setInput] = useState("");
-  const { messages, sendMessage } = useChat();
+  const { messages, sendMessage } = useChat({
+    transport: new DefaultChatTransport({
+      api: "/api/chat",
+      body: { chatId, date: formattedDate },
+    }),
+    onFinish: async (message) => {
+      if (!chatId) {
+        console.log("chatId from usechat", chatId);
+
+        return;
+      } else {
+        console.log("chatId from usechat", chatId);
+        console.log("message from usechat", message.messages);
+        const res = await axios.post("/api/chat/save-chat", {
+          messages: message.messages,
+          chatId,
+          date: formattedDate,
+        });
+        console.log(res.data);
+      }
+    },
+  });
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Scroll to bottom only if already near bottom

@@ -1,4 +1,5 @@
 "use client";
+import Dashboard from "@/components/autherised/dashboard";
 import { FeaturesSection } from "@/components/unautherised/features";
 import FinalSection from "@/components/unautherised/final-section";
 import HeroSection from "@/components/unautherised/hero-section";
@@ -16,7 +17,11 @@ const page = () => {
       </div>
     );
   }
-  return <div>HomePage</div>;
+  return (
+    <div className="mt-17">
+      HomePage <Dashboard />
+    </div>
+  );
 };
 
 export default page;

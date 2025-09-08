@@ -65,7 +65,7 @@ export async function POST(req: NextRequest) {
       data: {
         id: chatId,
         userId,
-        name: "new chat",
+        name: userMsg?.parts?.text || "New Chat",
         dayId: oldDay.id,
       },
     });

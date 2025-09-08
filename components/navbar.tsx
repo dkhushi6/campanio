@@ -11,8 +11,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button, buttonVariants } from "./ui/button";
 import ThemeSwitcher from "./theme/theme-switcher";
-import { Card } from "./ui/card";
-import { Brain } from "lucide-react"; // mental health–related icon
+import { Brain } from "lucide-react";
 
 const Navbar = () => {
   const { data: session } = useSession();

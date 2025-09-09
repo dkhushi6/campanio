@@ -8,6 +8,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { Card } from "../ui/card";
 import { ChartAreaDefault } from "./mood-chart";
 import { redirect } from "next/navigation";
+import { Button } from "../ui/button";
 
 const Dashboard = () => {
   const [mood, setMood] = useState("");
@@ -40,16 +41,13 @@ const Dashboard = () => {
       <DashboardCard date={formattedDate} mood={mood} streak={2} />
 
       {/* Dashboard middle section */}
-      <div className="max-w-8xl mx-auto flex  justify-center items-center">
+      <div className="max-w-7xl mx-auto flex  justify-center items-center">
         <div>
           <div className="flex gap-5 ">
             <div className="w-2/4">
               <ChartAreaDefault />
             </div>
-            <div
-              className="w-1/4 "
-              onClick={() => redirect("/journal/history")}
-            >
+            <div className="w-1/4 " onClick={() => redirect("/journal")}>
               {" "}
               <Card
                 className="
@@ -64,13 +62,28 @@ const Dashboard = () => {
                   📓 Your Journal
                 </h2>
                 {journal ? (
-                  <p className="text-sm text-slate-700 dark:text-gray-300 leading-relaxed ">
+                  <p
+                    className="text-sm text-slate-700 dark:text-gray-300 leading-relaxed 
+              overflow-hidden text-ellipsis line-clamp-18"
+                  >
                     {journal}
                   </p>
                 ) : (
-                  <p className="text-sm text-slate-500 dark:text-gray-400 italic">
-                    No journal entry yet for {formattedDate}.
-                  </p>
+                  <div className="text-sm text-slate-500 dark:text-gray-400 ital  ic">
+                    It looks like you haven’t written anything for{" "}
+                    {formattedDate}.. That’s okay — every blank page is just an
+                    invitation to start fresh. Journaling doesn’t need to be
+                    perfect or complicated; it’s simply a space for you to
+                    capture your thoughts, reflect on your day
+                    <Button
+                      onClick={() => redirect("/journal")}
+                      variant="outline"
+                      className="mt-10 flex justify-end"
+                    >
+                      {" "}
+                      Start writing...
+                    </Button>
+                  </div>
                 )}
               </Card>
             </div>

@@ -2,8 +2,9 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { formatDistanceToNow } from "date-fns";
-import { MessageSquare } from "lucide-react";
+import { MessageSquare, Plus } from "lucide-react";
 import { redirect } from "next/navigation";
+import { Button } from "@/components/ui/button";
 
 type ChatHistoryProps = {
   formattedDate: string;
@@ -24,6 +25,7 @@ type Chat = {
 
 const ChatHistory = ({ formattedDate }: ChatHistoryProps) => {
   const [dayChats, setDayChats] = useState<Chat[]>([]);
+
   useEffect(() => {
     const handleDayChatsFetch = async () => {
       try {
@@ -41,13 +43,13 @@ const ChatHistory = ({ formattedDate }: ChatHistoryProps) => {
 
   return (
     <div className="p-4">
-      <h2 className="text-lg font-semibold mb-4 text-foreground flex text-ce">
+      <h2 className="text-lg font-semibold mb-4 text-foreground">
         Recent Conversations
       </h2>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {dayChats.length > 0 ? (
-          dayChats.map((chat) => {
+      {dayChats.length > 0 ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {dayChats.map((chat) => {
             const firstMessage = chat.messages[0];
             const lastMessage = chat.messages[chat.messages.length - 1];
 
@@ -87,13 +89,23 @@ const ChatHistory = ({ formattedDate }: ChatHistoryProps) => {
                 </div>
               </div>
             );
-          })
-        ) : (
-          <p className="text-muted-foreground text-sm">
-            No chats for this day.
+          })}
+        </div>
+      ) : (
+        <div className="flex flex-col items-center justify-center p-10 text-center border border-dashed rounded-xl bg-muted/40">
+          <MessageSquare className="w-8 h-8 text-muted-foreground mb-3" />
+          <p className="text-sm text-muted-foreground mb-4">
+            You haven’t started any chats today. Ready to begin a new one?
           </p>
-        )}
-      </div>
+          <Button
+            onClick={() => redirect("/chat/new")}
+            className="flex items-center gap-2"
+          >
+            <Plus size={16} />
+            Start a New Chat
+          </Button>
+        </div>
+      )}
     </div>
   );
 };

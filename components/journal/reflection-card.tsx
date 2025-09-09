@@ -143,11 +143,27 @@ const ReflectionCard = ({
           </div>
 
           {!isEditing && (
-            <Card className="flex-1 p-6 backdrop-blur-sm bg-[#0bedf54c]">
-              <h2 className="text-xl font-semibold text-primary mb-4 flex items-center gap-2">
-                <Sparkles className="w-5 h-5 text-primary" /> Reflection
+            <Card
+              className="flex-1 p-6 backdrop-blur-sm relative overflow-hidden 
+               bg-[#0bedf54c] rounded-2xl
+               shadow-[0_0_25px_rgba(11,237,245,0.4)] 
+               transition duration-500"
+            >
+              {/* Glowing gradient border effect */}
+              <div className="absolute inset-0 rounded-2xl pointer-events-none">
+                <div
+                  className="absolute inset-[-2px] rounded-2xl 
+                      bg-gradient-to-r from-pink-500 via-cyan-400 to-purple-500 
+                      blur-xl opacity-40 animate-pulse"
+                />
+              </div>
+
+              <h2 className="relative text-xl font-semibold text-primary mb-4 flex items-center gap-2">
+                <Sparkles className="w-5 h-5 text-primary animate-pulse" />{" "}
+                Reflection
               </h2>
-              <div className="overflow-y-auto pr-2 h-full">
+
+              <div className="relative overflow-y-auto pr-2 h-full">
                 <p className="text-base text-muted-foreground leading-relaxed">
                   {day?.reflection
                     ? day.reflection

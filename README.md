@@ -1,37 +1,43 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# campanio
 
-## Getting Started
+## Overview
+Campanio is a mental health companion app designed to support users experiencing loneliness or stress. It provides accessible tools and emotional support through a friendly, visually soothing interface, aiming to make mental well-being support readily available.
 
-First, run the development server:
+## Features
+*   AI chat for emotional support
+*   Mood tracking
+*   Guided exercises
+*   Personal journal
+*   Friendly, visually soothing interface
 
+## Installation
+Clone the repo and install dependencies:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/dkhushi6/campanio.git
+# or via SSH
+git clone git@github.com:dkhushi6/campanio.git
+cd campanio
+npm install # Assuming Node.js/npm for TypeScript projects
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Usage
+To start the application (e.g., a development server or main entry point):
+```bash
+npm start
+```
+Follow on-screen instructions or console output for further usage.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Contributing
+We welcome contributions!
+1.  **Fork** the repository.
+2.  **Create a new branch** (`git checkout -b feature/YourFeatureName`).
+3.  **Commit** your changes (`git commit -m 'Add some feature'`).
+4.  **Push** to the branch (`git push origin feature/YourFeatureName`).
+5.  **Open a Pull Request**.
+See open issues: https://github.com/dkhushi6/campanio/issues
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## License
+MIT
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-# campanio-
+## Links
+*   GitHub: https://github.com/dkhushi6/campanio
